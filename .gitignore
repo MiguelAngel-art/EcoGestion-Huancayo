@@ -1,0 +1,29 @@
+
+# Python
+**/.venv/
+**/__pycache__/
+*.pyc
+**/.pytest_cache/
+
+# Variables privadas
+.env
+**/.env
+.env.*
+**/.env.*
+!.env.example
+!**/.env.example
+!.env.postgres.example
+!**/.env.postgres.example
+
+# Bases de datos locales
+*.db
+*.sqlite3
+
+# Angular
+**/node_modules/
+**/dist/
+**/.angular/
+
+# Otros archivos temporales
+*.log
+.vscode/

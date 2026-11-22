@@ -1,0 +1,17 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: ecogestion
+      POSTGRES_PASSWORD: ecogestion_local
+      POSTGRES_DB: ecogestion
+    ports:
+      - '127.0.0.1:5432:5432'
+    volumes:
+      - ecogestion_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ecogestion -d ecogestion"]
+      interval: 5s
+      retries: 15
+volumes:
+  ecogestion_pgdata:
