@@ -27,7 +27,7 @@ class Familia(Base):
 class Recoleccion(Base):
     __tablename__ = 'recolecciones'
     id: Mapped[int] = mapped_column(primary_key=True)
-    familia_id: Mapped[int] = mapped_column(ForeignKey('familias.id', ondelete='RESTRICT'), nullable=False, index=True)
+    familia_id: Mapped[int] = mapped_column(ForeignKey('familias.id', ondelete='NO ACTION'), nullable=False, index=True)
     fecha: Mapped[date] = mapped_column(Date, nullable=False)
     estado: Mapped[str] = mapped_column(String(16), nullable=False, default='pendiente')
     observacion: Mapped[str] = mapped_column(String(300), nullable=False, default='')
@@ -43,8 +43,8 @@ class TipoMaterial(Base):
 class RegistroMaterial(Base):
     __tablename__ = 'registros_material'
     id: Mapped[int] = mapped_column(primary_key=True)
-    recoleccion_id: Mapped[int] = mapped_column(ForeignKey('recolecciones.id', ondelete='RESTRICT'), nullable=False, index=True)
-    material_id: Mapped[int] = mapped_column(ForeignKey('tipos_material.id', ondelete='RESTRICT'), nullable=False)
+    recoleccion_id: Mapped[int] = mapped_column(ForeignKey('recolecciones.id', ondelete='NO ACTION'), nullable=False, index=True)
+    material_id: Mapped[int] = mapped_column(ForeignKey('tipos_material.id', ondelete='NO ACTION'), nullable=False)
     cantidad_kg: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False)
     fecha_registro: Mapped[date] = mapped_column(Date, nullable=False, default=date.today)
     recoleccion: Mapped[Recoleccion] = relationship(back_populates='registros')
