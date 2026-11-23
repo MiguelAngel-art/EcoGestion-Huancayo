@@ -1,0 +1,44 @@
+
+.login-page {
+  min-height: 100vh;
+  background: #edf3e8;
+}
+
+.login-card {
+  max-width: 1000px;
+  border-radius: 20px;
+}
+
+.welcome-panel {
+  background: linear-gradient(
+    135deg,
+    #244b35,
+    #198754
+  );
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-control {
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.form-control:focus {
+  border-color: #198754;
+  box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.15);
+}
+
+.btn-success {
+  border-radius: 10px;
+  padding: 12px;
+  font-weight: 600;
+}
+
+@media (max-width: 767px) {
+  .welcome-panel {
+    padding: 2rem !important;
+  }
+}

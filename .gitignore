@@ -27,3 +27,4 @@
 # Otros archivos temporales
 *.log
 .vscode/
+/backend/cambiar_password_admin.py

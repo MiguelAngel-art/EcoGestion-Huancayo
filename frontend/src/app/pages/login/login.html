@@ -1,0 +1,118 @@
+
+<div class="login-page d-flex align-items-center justify-content-center p-3">
+
+  <div class="container">
+    <div class="row login-card mx-auto shadow-lg overflow-hidden">
+
+      <!-- Panel de bienvenida -->
+      <div class="col-md-6 welcome-panel text-white p-5">
+
+        <div class="fs-2 fw-bold mb-5">
+          🌱 EcoGestión
+        </div>
+
+        <h1 class="fw-bold mb-4">
+          Juntos por un Huancayo más limpio
+        </h1>
+
+        <p class="fs-5">
+          Sistema de Gestión de Reciclaje
+        </p>
+
+        <p>
+          Administramos familias, recolecciones
+          y materiales reciclables para construir
+          una comunidad más sostenible.
+        </p>
+
+        <div class="mt-5">
+          ♻️ Reduce • Reutiliza • Recicla
+        </div>
+
+      </div>
+
+      <!-- Formulario de acceso -->
+      <div class="col-md-6 bg-white p-5">
+
+        <div class="text-center mb-4">
+          <h2 class="fw-bold text-success">
+            Bienvenido
+          </h2>
+
+          <p class="text-muted">
+            Inicia sesión para continuar
+          </p>
+        </div>
+
+        <form (ngSubmit)="iniciarSesion()">
+
+          <!-- Correo electrónico -->
+          <div class="mb-4">
+            <label
+              for="correo"
+              class="form-label fw-semibold"
+            >
+              Correo electrónico
+            </label>
+
+            <input
+              type="email"
+              id="correo"
+              name="correo"
+              class="form-control form-control-lg"
+              placeholder="ejemplo@correo.com"
+              autocomplete="username"
+              [(ngModel)]="email"
+              required
+            >
+          </div>
+
+          <!-- Contraseña -->
+          <div class="mb-4">
+            <label
+              for="password"
+              class="form-label fw-semibold"
+            >
+              Contraseña
+            </label>
+
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-control form-control-lg"
+              placeholder="Ingresa tu contraseña"
+              autocomplete="current-password"
+              [(ngModel)]="password"
+              required
+            >
+          </div>
+
+          <!-- Mensaje de error -->
+          @if (error) {
+            <div class="alert alert-danger" role="alert">
+              {{ error }}
+            </div>
+          }
+
+          <!-- Botón de inicio de sesión -->
+          <button
+            type="submit"
+            class="btn btn-success btn-lg w-100"
+            [disabled]="cargando"
+          >
+            {{ cargando ? 'Ingresando...' : 'Iniciar sesión' }}
+          </button>
+
+        </form>
+
+        <p class="text-center text-muted mt-5 small">
+          EcoGestión Huancayo © 2026
+        </p>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>

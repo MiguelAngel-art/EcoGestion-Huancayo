@@ -1,0 +1,311 @@
+
+<div class="min-vh-100 bg-light">
+
+  <!-- Barra superior -->
+  <nav class="navbar navbar-dark bg-success px-4 py-3">
+    <span class="navbar-brand fw-bold">
+      🌱 EcoGestión Huancayo
+    </span>
+
+    <button
+      type="button"
+      class="btn btn-outline-light"
+      (click)="volverDashboard()"
+    >
+      Volver al Dashboard
+    </button>
+  </nav>
+
+  <main class="container py-5">
+
+    <!-- Encabezado -->
+    <div class="d-flex justify-content-between
+                align-items-center flex-wrap gap-3 mb-4">
+
+      <div>
+        <h1 class="fw-bold text-success">
+          Gestión de Materiales
+        </h1>
+
+        <p class="text-muted">
+          Registro de kilogramos de materiales reciclables
+        </p>
+      </div>
+
+      <div class="d-flex flex-wrap gap-2">
+        <button
+          type="button"
+          class="btn btn-outline-success"
+          (click)="cargarDatos()"
+          [disabled]="cargando()"
+        >
+          Actualizar lista
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="abrirFormulario()"
+        >
+          + Nuevo material
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mensajes -->
+    @if (mensaje()) {
+      <div class="alert alert-success" role="status">
+        {{ mensaje() }}
+      </div>
+    }
+
+    @if (error()) {
+      <div class="alert alert-danger" role="alert">
+        {{ error() }}
+      </div>
+    }
+
+    <!-- Formulario -->
+    @if (mostrarFormulario()) {
+
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body p-4">
+
+          <h4 class="fw-bold text-success mb-4">
+            {{ editandoId() !== null
+                ? 'Editar material'
+                : 'Registrar material recuperado' }}
+          </h4>
+
+          <form (ngSubmit)="guardarMaterial()">
+
+            <div class="row g-3">
+
+              <!-- Recolección -->
+              <div class="col-md-6">
+                <label for="recoleccion" class="form-label fw-semibold">
+                  Recolección completada *
+                </label>
+
+                <select
+                  id="recoleccion"
+                  name="recoleccion_id"
+                  class="form-select"
+                  [(ngModel)]="formulario.recoleccion_id"
+                  required
+                >
+                  <option [ngValue]="0" disabled>
+                    Selecciona una recolección
+                  </option>
+
+                  @for (r of recoleccionesCompletadas(); track r.id) {
+                    <option [ngValue]="r.id">
+                      #{{ r.id }} -
+                      {{ r.familia_nombre || 'Familia ' + r.familia_id }}
+                      ({{ r.fecha }})
+                    </option>
+                  }
+                </select>
+              </div>
+
+              <!-- Tipo de material -->
+              <div class="col-md-6">
+                <label for="tipo" class="form-label fw-semibold">
+                  Tipo de material *
+                </label>
+
+                <select
+                  id="tipo"
+                  name="material_id"
+                  class="form-select"
+                  [(ngModel)]="formulario.material_id"
+                  required
+                >
+                  <option [ngValue]="0" disabled>
+                    Selecciona un material
+                  </option>
+
+                  @for (tipo of tiposMaterial(); track tipo.id) {
+                    <option [ngValue]="tipo.id">
+                      {{ tipo.nombre }}
+                    </option>
+                  }
+                </select>
+              </div>
+
+              <!-- Cantidad -->
+              <div class="col-md-6">
+                <label for="cantidad" class="form-label fw-semibold">
+                  Cantidad (kg) *
+                </label>
+
+                <input
+                  id="cantidad"
+                  type="number"
+                  name="cantidad_kg"
+                  class="form-control"
+                  min="0.01"
+                  step="0.01"
+                  [(ngModel)]="formulario.cantidad_kg"
+                  required
+                >
+              </div>
+
+              <!-- Fecha -->
+              <div class="col-md-6">
+                <label for="fechaRegistro" class="form-label fw-semibold">
+                  Fecha de registro *
+                </label>
+
+                <input
+                  id="fechaRegistro"
+                  type="date"
+                  name="fecha_registro"
+                  class="form-control"
+                  [(ngModel)]="formulario.fecha_registro"
+                  required
+                >
+              </div>
+
+            </div>
+
+            <div class="d-flex gap-2 mt-4">
+
+              <button
+                type="submit"
+                class="btn btn-success"
+                [disabled]="guardando()"
+              >
+                {{ guardando()
+                    ? 'Guardando...'
+                    : editandoId() !== null
+                      ? 'Guardar cambios'
+                      : 'Guardar material' }}
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-secondary"
+                (click)="cancelarFormulario()"
+                [disabled]="guardando()"
+              >
+                Cancelar
+              </button>
+
+            </div>
+
+          </form>
+        </div>
+      </div>
+    }
+
+    <!-- Cargando -->
+    @if (cargando()) {
+      <div class="text-center py-5">
+        <div class="spinner-border text-success" role="status"></div>
+        <p class="text-muted mt-3">Cargando materiales...</p>
+      </div>
+    }
+
+    <!-- Tabla -->
+    @else {
+
+      <div class="card border-0 shadow-sm">
+
+        <div class="card-header bg-white p-4">
+          <h5 class="mb-0 fw-bold">
+            Materiales registrados: {{ materiales().length }}
+          </h5>
+        </div>
+
+        <div class="card-body p-0">
+          <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+              <thead class="table-success">
+                <tr>
+                  <th class="ps-4">ID</th>
+                  <th>Recolección</th>
+                  <th>Familia</th>
+                  <th>Material</th>
+                  <th>Cantidad</th>
+                  <th>Fecha</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+
+              <tbody>
+
+                @for (material of materiales(); track material.id) {
+                  <tr>
+                    <td class="ps-4">
+                      {{ material.id }}
+                    </td>
+
+                    <td>
+                      #{{ material.recoleccion_id }}
+                    </td>
+
+                    <td>
+                      {{ nombreFamilia(material.recoleccion_id) }}
+                    </td>
+
+                    <td class="fw-semibold">
+                      {{ nombreMaterial(material.material_id) }}
+                    </td>
+
+                    <td class="text-success fw-bold">
+                      {{ material.cantidad_kg }} kg
+                    </td>
+
+                    <td>
+                      {{ material.fecha_registro }}
+                    </td>
+
+                    <td>
+                      <div class="d-flex gap-2">
+
+                        <button
+                          type="button"
+                          class="btn btn-outline-primary btn-sm"
+                          (click)="editarMaterial(material)"
+                        >
+                          Editar
+                        </button>
+
+                        <button
+                          type="button"
+                          class="btn btn-outline-danger btn-sm"
+                          (click)="eliminarMaterial(material)"
+                          [disabled]="eliminandoId() !== null"
+                        >
+                          {{ eliminandoId() === material.id
+                              ? 'Eliminando...'
+                              : 'Eliminar' }}
+                        </button>
+
+                      </div>
+                    </td>
+                  </tr>
+
+                } @empty {
+                  <tr>
+                    <td colspan="7" class="text-center text-muted py-5">
+                      Todavía no hay materiales registrados.
+                    </td>
+                  </tr>
+                }
+
+              </tbody>
+
+            </table>
+          </div>
+        </div>
+      </div>
+
+    }
+
+  </main>
+</div>
