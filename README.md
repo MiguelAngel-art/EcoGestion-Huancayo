@@ -1,223 +1,154 @@
-
-# 🌱 EcoGestión Huancayo
+# EcoGestión Huancayo
 
 ## Sistema Web de Gestión de Reciclaje
 
-Proyecto académico desarrollado para la asignatura de **Programación Web**, orientado a contribuir a la gestión del reciclaje y al cuidado del medio ambiente en la ciudad de Huancayo, Perú.
+EcoGestión Huancayo es un proyecto desarrollado para el curso de Programación Web. Su finalidad es ayudar a organizar las actividades de reciclaje en la ciudad de Huancayo, Perú.
 
-El sistema permite registrar familias participantes, gestionar recolecciones, controlar los materiales reciclables recuperados y visualizar estadísticas mediante un panel de control.
+El sistema permite registrar familias, gestionar recolecciones, registrar materiales reciclables y consultar estadísticas mediante un panel de control.
 
----
+## 1. Problemática
 
-## 1. Problemática social
+En Huancayo, la gestión de residuos sólidos es un problema que afecta al medio ambiente. Por ello, este proyecto propone un sistema web que permita organizar y llevar un mejor control de las actividades de reciclaje.
 
-La gestión inadecuada de residuos sólidos representa un desafío ambiental para las comunidades urbanas.
+## 2. Objetivo
 
-EcoGestión Huancayo propone una herramienta digital para organizar la información relacionada con actividades de reciclaje, facilitar el seguimiento de las recolecciones y promover una gestión responsable de los residuos.
-
-## 2. Objetivo general
-
-Desarrollar una aplicación web que facilite el registro y seguimiento de actividades de reciclaje mediante tecnologías modernas, contribuyendo a una gestión organizada y sostenible de residuos reciclables.
+Desarrollar una aplicación web que facilite el registro de familias, recolecciones y materiales reciclables, utilizando herramientas de programación web y una base de datos.
 
 ## 3. Tecnologías utilizadas
 
-### Frontend
+**Frontend:**
 - Angular 22
 - TypeScript
-- HTML5 y SCSS
+- HTML5
+- SCSS
 - Bootstrap 5
-- Angular Signals
-- Angular Router
-- HttpClient
 
-### Backend
+**Backend:**
 - Python
 - FastAPI
-- API REST
 - SQLAlchemy
-- Autenticación JWT
+- API REST
+- JWT para autenticación
 
-### Base de datos
-- Microsoft SQL Server Express
-- Modelo de datos relacional
+**Base de datos:**
+- SQL Server Express
 
-### Herramientas
+**Herramientas:**
 - Visual Studio Code
-- Git
-- GitHub
+- Git y GitHub
 - Swagger UI
 
-## 4. Funcionalidades implementadas
+## 4. Funcionalidades del sistema
 
-### Autenticación
-- Inicio de sesión con correo y contraseña.
-- Validación de credenciales desde el backend.
-- Protección de rutas del frontend.
-- Cierre de sesión.
+**Inicio de sesión**
+- Ingresar con correo y contraseña.
+- Validar los datos del usuario.
+- Cerrar sesión.
 
-### Gestión de familias
+**Gestión de familias**
 - Registrar familias.
-- Consultar familias.
-- Editar información.
-- Eliminar registros.
+- Mostrar familias registradas.
+- Editar y eliminar registros.
 
-### Gestión de recolecciones
-- Registrar recolecciones.
-- Consultar recolecciones.
-- Actualizar datos y estados.
-- Eliminar registros.
+**Gestión de recolecciones**
+- Registrar nuevas recolecciones.
+- Consultar las recolecciones.
+- Cambiar su estado a pendiente o completada.
+- Editar y eliminar registros.
 
-### Gestión de materiales
+**Gestión de materiales**
 - Registrar materiales reciclables.
-- Asociar materiales con recolecciones.
-- Registrar cantidades en kilogramos.
+- Seleccionar una recolección completada.
+- Registrar la cantidad en kilogramos.
 - Consultar, editar y eliminar registros.
 
-### Dashboard
-- Visualización de familias registradas.
-- Conteo de recolecciones completadas.
-- Cálculo del total de kilogramos recuperados.
-- Actualización de estadísticas desde el backend.
+**Panel de control**
+- Mostrar el número de familias registradas.
+- Mostrar las recolecciones completadas.
+- Mostrar el total de kilogramos recuperados.
 
-## 5. Uso de Angular Signals
+## 5. Funcionamiento del sistema
 
-La aplicación implementa programación reactiva mediante Angular Signals.
+El proyecto está dividido en tres partes:
 
-Se utilizan:
+- **Angular:** muestra las páginas, formularios y tablas.
+- **FastAPI:** recibe las solicitudes y procesa la información.
+- **SQL Server:** almacena los datos del sistema.
 
-- `signal()` para almacenar estados y datos.
-- `.set()` para actualizar valores.
-- `computed()` para obtener información derivada.
-- Lectura de Signals en las plantillas HTML.
+La comunicación funciona de la siguiente manera:
 
-Por ejemplo, el módulo de Materiales obtiene automáticamente las recolecciones completadas mediante una señal calculada.
+**Usuario → Angular → FastAPI → SQL Server**
 
-Esta implementación permite mantener la interfaz sincronizada con los cambios de estado.
+También se utilizan Angular Signals para actualizar los datos que aparecen en pantalla.
 
-## 6. Arquitectura del sistema
-
-La solución utiliza una arquitectura cliente-servidor organizada por responsabilidades:
-
-**Frontend Angular**
-- Interfaz de usuario.
-- Formularios y tablas.
-- Navegación.
-- Gestión del estado.
-- Consumo de la API REST.
-
-**Backend FastAPI**
-- Recepción y procesamiento de peticiones.
-- Validación de datos.
-- Autenticación.
-- Lógica de negocio.
-- Acceso a la base de datos.
-
-**SQL Server**
-- Almacenamiento de usuarios.
-- Almacenamiento de familias.
-- Registro de recolecciones.
-- Registro de materiales.
-
-Flujo general:
-
-Usuario → Angular → API FastAPI → SQL Server
-
-## 7. Estructura del repositorio
+## 6. Estructura del proyecto
 
 ```text
 EcoGestion-Huancayo/
 |
 |-- backend/
 |   |-- src/
-|   |-- crear_usuario.bat
 |   |-- iniciar_backend.bat
+|   |-- crear_usuario.bat
 |
 |-- frontend/
+|   |-- public/
 |   |-- src/
-|   |   |-- app/
-|   |   |   |-- guards/
-|   |   |   |-- pages/
-|   |   |       |-- login/
-|   |   |       |-- dashboard/
-|   |   |       |-- familias/
-|   |   |       |-- recolecciones/
-|   |   |       |-- materiales/
-|   |-- package.json
-|   |-- angular.json
+|       |-- app/
+|           |-- guards/
+|           |-- pages/
+|               |-- login/
+|               |-- dashboard/
+|               |-- familias/
+|               |-- recolecciones/
+|               |-- materiales/
 |
 |-- .gitignore
 |-- README.md
 ```
 
-## 8. Requisitos para ejecutar el proyecto
+## 7. Instalación y ejecución
 
-- Windows.
-- Python y las dependencias del backend.
-- Node.js y npm.
-- SQL Server Express.
-- Controlador ODBC compatible con SQL Server.
-- Git, para clonar el repositorio.
+Para ejecutar el proyecto se necesita:
 
-## 9. Instalación y ejecución
+- Python
+- Node.js y npm
+- SQL Server Express
+- Controlador ODBC para SQL Server
 
-### 9.1. Clonar el repositorio
+**Paso 1. Clonar el repositorio**
 
 ```powershell
 git clone https://github.com/MiguelAngel-art/EcoGestion-Huancayo.git
 cd EcoGestion-Huancayo
 ```
 
-### 9.2. Configurar el backend
+**Paso 2. Configurar el backend**
 
-Entrar a la carpeta:
+Configurar la conexión con SQL Server y las variables necesarias en el archivo `.env`.
+
+Ingresar a la carpeta del backend y ejecutar:
 
 ```powershell
 cd backend
-```
-
-Configurar la conexión local a SQL Server Express y las variables de entorno del backend.
-
-Entre las variables utilizadas se encuentran:
-
-- `DB_ENGINE`
-- `DB_SERVER`
-- `DB_NAME`
-- `DB_ODBC_DRIVER`
-- `JWT_SECRET`
-- `JWT_MINUTES`
-- `CORS_ORIGINS`
-
-El archivo `.env` contiene configuración local y **no se publica en GitHub**.
-
-Ejecutar el iniciador del backend:
-
-```powershell
 .\iniciar_backend.bat
 ```
 
-Una vez iniciado, la API estará disponible en:
-
-http://127.0.0.1:8000
-
-Documentación interactiva:
+La API estará disponible en:
 
 http://127.0.0.1:8000/docs
 
-### 9.3. Crear un usuario
+**Paso 3. Crear un usuario**
 
-El proyecto cuenta con una herramienta de consola para registrar usuarios:
+Desde la carpeta `backend`, ejecutar:
 
 ```powershell
 .\crear_usuario.bat
 ```
 
-Se debe introducir un correo, nombre, rol y contraseña.
+**Paso 4. Ejecutar el frontend**
 
-Las contraseñas no deben incluirse en el código ni en el repositorio.
-
-### 9.4. Instalar y ejecutar el frontend
-
-Abrir otra terminal en la carpeta principal del proyecto:
+Abrir otra terminal desde la carpeta principal del proyecto:
 
 ```powershell
 cd frontend
@@ -229,74 +160,33 @@ Abrir en el navegador:
 
 http://localhost:4200
 
-El frontend requiere que el backend y SQL Server estén correctamente configurados y ejecutándose.
+Para que el sistema funcione correctamente, SQL Server y el backend deben estar ejecutándose.
 
-## 10. Seguridad
+## 8. Seguridad
 
-El proyecto incorpora autenticación mediante JWT y almacenamiento de contraseñas como hashes.
+El sistema utiliza autenticación con JWT y contraseñas almacenadas mediante hashes.
 
-También considera:
+Los datos de configuración y las claves privadas se mantienen en archivos de entorno que no deben publicarse en GitHub.
 
-- Protección de rutas.
-- Validación de datos.
-- Separación entre frontend y backend.
-- Uso de variables de entorno.
-- Exclusión de claves privadas del repositorio.
+## 9. Pruebas realizadas
 
-Las verificaciones de seguridad deben complementarse con pruebas del backend antes de un despliegue público.
+Durante el desarrollo se realizaron pruebas de:
 
-## 11. Diseño responsive
+- Inicio y cierre de sesión.
+- Registro, edición y eliminación de familias.
+- Registro, edición y eliminación de recolecciones.
+- Registro, edición y eliminación de materiales.
+- Actualización de estadísticas.
+- Navegación entre las diferentes páginas.
 
-La interfaz utiliza Bootstrap para adaptar la distribución de formularios, tablas, botones y tarjetas a diferentes tamaños de pantalla.
+Se utilizaron datos de prueba para comprobar el funcionamiento del sistema.
 
-Se realizaron comprobaciones visuales mediante las herramientas de desarrollo del navegador.
+## 10. Conclusión
 
-## 12. Pruebas funcionales
+EcoGestión Huancayo es una aplicación web que permite organizar información relacionada con el reciclaje. Con este proyecto se aplicaron conocimientos de Angular, Python, FastAPI y SQL Server.
 
-Durante el desarrollo se comprobaron las siguientes operaciones:
-
-- Inicio de sesión.
-- Rechazo de credenciales incorrectas.
-- CRUD de familias.
-- CRUD de recolecciones.
-- CRUD de materiales.
-- Actualización de estadísticas del Dashboard.
-- Navegación entre módulos.
-- Reorganización responsive de elementos.
-
-Los registros empleados durante estas pruebas son datos demostrativos y no representan resultados ambientales medidos en la comunidad.
-
-## 13. Impacto social esperado
-
-EcoGestión Huancayo busca contribuir a:
-
-- Organizar las actividades de reciclaje.
-- Facilitar el seguimiento de familias participantes.
-- Registrar las cantidades de materiales recuperados.
-- Mejorar la disponibilidad de información.
-- Fomentar prácticas ambientales responsables.
-
-El impacto real del sistema requerirá validación con usuarios y seguimiento de indicadores durante su aplicación.
-
-## 14. Responsabilidad profesional
-
-El proyecto reconoce la importancia de desarrollar soluciones tecnológicas que beneficien a la comunidad, respeten la privacidad de los usuarios y promuevan el uso responsable de la información.
-
-La aplicación constituye una propuesta tecnológica académica con potencial para su ampliación y mejora.
-
-## 15. Estado del proyecto
-
-Versión académica funcional.
-
-Módulos principales implementados:
-- Login.
-- Dashboard.
-- Familias.
-- Recolecciones.
-- Materiales.
-
-Tecnologías principales: Angular, FastAPI y SQL Server.
+El sistema cumple con las funciones principales propuestas y puede seguir mejorándose para su uso en actividades reales de reciclaje.
 
 ---
 
-**EcoGestión Huancayo — Programación Web, 2026**
+**Proyecto académico — Programación Web, 2026**
