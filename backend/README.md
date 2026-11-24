@@ -1,122 +1,238 @@
-# EcoGestión Huancayo — Backend FastAPI
 
-Primer bloque del proyecto de Programación Web: **API funcional para familias, recolecciones, materiales, acceso y dashboard**.
+# EcoGestión Huancayo 🌱
 
-## Empezar en Windows (VS Code + PowerShell)
+## Backend del sistema de reciclaje
 
-1. Instala **Python 3.11 o superior** y VS Code. Al instalar Python, activa «Add Python to PATH» y comprueba `py --version`.
-2. Descomprime `EcoGestion_Backend_Paso1.zip`. Abre en VS Code la **carpeta `backend`** del ZIP (Archivo → Abrir carpeta).
-3. En la terminal de VS Code escribe ` .\iniciar_backend.bat ` o haz doble clic en ese archivo dentro de la carpeta.
-4. La primera ejecución crea `.venv`, instala paquetes y genera `.env` automáticamente. **No cierres esa terminal**.
-5. Abre http://127.0.0.1:8000/health y confirma `{"estado":"ok"}`.
-6. Abre http://127.0.0.1:8000/docs para ver y probar todas las rutas HTTP.
-7. En **otra terminal**, desde la carpeta `backend`, ejecuta `.\crear_usuario.bat`; introduce tu correo, nombre, rol `admin` y una contraseña segura de **10 caracteres o más**. La contraseña no se ve mientras escribes.
-8. En `/docs`, prueba **POST `/auth/login`** con tu correo y contraseña. Copia `access_token`.
-9. Pulsa el botón **Authorize** arriba en Swagger e introduce el token en el campo del esquema HTTP Bearer. Si pide prefijo, usa `Bearer TU_TOKEN` (según el cuadro que muestre). Ya puedes probar POST `/familias` y los demás endpoints.
+### 1. ¿De qué trata el proyecto?
 
-Para apagar el servidor presiona `Ctrl+C` en la terminal. Para reiniciarlo basta con volver a ejecutar `.\iniciar_backend.bat`.
+EcoGestión Huancayo es un proyecto que desarrollamos para el curso de Programación Web.
 
-### Si prefieres escribir comandos en PowerShell
+La idea surgió porque el reciclaje es una actividad importante para cuidar nuestro medio ambiente, pero muchas veces no se lleva un buen registro de las familias que participan, de las recolecciones que se realizan ni de la cantidad de materiales recuperados.
 
-Ubicado dentro de `backend`:
+Por eso, desarrollamos una aplicación web que permite organizar esta información de manera sencilla.
+
+El sistema está pensado como una propuesta tecnológica que puede ayudar a mejorar la organización de las actividades de reciclaje en Huancayo.
+
+### 2. Objetivo del proyecto
+
+Nuestro objetivo es desarrollar un sistema web que permita registrar familias, controlar las recolecciones de residuos reciclables y conocer la cantidad de materiales recuperados.
+
+También buscamos demostrar cómo la programación puede utilizarse para ayudar a solucionar problemas de nuestra comunidad.
+
+### 3. Herramientas que utilizamos
+
+Para desarrollar nuestro proyecto utilizamos las siguientes tecnologías:
+
+- **Angular:** para crear las pantallas que utiliza el usuario.
+- **Bootstrap:** para mejorar el diseño y adaptar las pantallas a diferentes tamaños.
+- **Python y FastAPI:** para desarrollar la parte que procesa la información del sistema.
+- **SQL Server Express:** para guardar los datos de manera organizada.
+- **Visual Studio Code:** para escribir y trabajar con nuestro código.
+- **Git y GitHub:** para guardar y compartir los avances del proyecto.
+
+También utilizamos Angular Signals para actualizar la información de algunas pantallas.
+
+### 4. ¿Qué funciones tiene nuestro sistema?
+
+El proyecto cuenta con los siguientes módulos:
+
+**Inicio de sesión**
+
+Permite ingresar al sistema utilizando un correo electrónico y una contraseña.
+
+**Gestión de familias**
+
+Permite registrar nuevas familias, visualizar su información, modificar sus datos y eliminar registros cuando corresponda.
+
+**Gestión de recolecciones**
+
+Permite registrar las recolecciones realizadas o programadas, asignarlas a una familia y actualizar su estado.
+
+**Gestión de materiales**
+
+Permite registrar materiales como plástico, papel, cartón y vidrio. También se puede indicar cuántos kilogramos se recuperaron en cada recolección.
+
+**Panel de control**
+
+Muestra un resumen con la cantidad de familias registradas, las recolecciones completadas y los kilogramos recuperados.
+
+Los datos del panel se actualizan cuando realizamos cambios en los registros.
+
+### 5. ¿Cómo funciona?
+
+Nuestro sistema está dividido en tres partes principales.
+
+La primera es Angular, donde el usuario puede ingresar y utilizar las diferentes opciones.
+
+La segunda es FastAPI, que recibe las solicitudes, revisa la información y realiza las operaciones correspondientes.
+
+La tercera es SQL Server, donde se almacenan los datos registrados.
+
+Estas tres partes trabajan juntas para que la información que ingresamos en las pantallas se guarde correctamente y pueda consultarse después.
+
+### 6. ¿Qué necesito para ejecutar el proyecto?
+
+Para ejecutar el sistema en una computadora con Windows es necesario tener instalado:
+
+- Python 3.11 o superior.
+- Node.js y npm.
+- SQL Server Express.
+- ODBC Driver 18 for SQL Server.
+- Git para descargar el repositorio.
+
+También recomendamos utilizar Visual Studio Code y SQL Server Management Studio.
+
+### 7. Preparar la base de datos
+
+Primero debemos abrir SQL Server Management Studio y conectarnos a SQL Server Express.
+
+Durante el desarrollo utilizamos la instancia:
+
+`.\SQLEXPRESS`
+
+Después debemos crear una base de datos con el nombre:
+
+`EcoGestionHuancayo`
+
+Podemos utilizar esta consulta:
+
+```sql
+IF DB_ID(N'EcoGestionHuancayo') IS NULL
+BEGIN
+    CREATE DATABASE [EcoGestionHuancayo];
+END;
+```
+
+Al iniciar el backend, el programa crea las tablas necesarias mediante SQLAlchemy y registra los tipos de materiales iniciales.
+
+Es importante que el usuario de Windows tenga permisos para acceder a la base de datos.
+
+### 8. ¿Cómo iniciar el backend?
+
+Primero descargamos el proyecto desde GitHub:
 
 ```powershell
-py -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe configurar.py
-.\.venv\Scripts\python.exe -m uvicorn backend.main:app --app-dir src --reload
+git clone https://github.com/MiguelAngel-art/EcoGestion-Huancayo.git
 ```
 
-Para crear el usuario en otra terminal:
+Luego ingresamos a la carpeta del backend:
 
 ```powershell
-$env:PYTHONPATH = (Resolve-Path .\src).Path
-.\.venv\Scripts\python.exe -m backend.seed
+cd EcoGestion-Huancayo
+cd backend
 ```
 
-### URLs de trabajo
-
-| Servicio | Dirección |
-| --- | --- |
-| Backend | http://127.0.0.1:8000 |
-| Estado | http://127.0.0.1:8000/health |
-| Documentación interactiva | http://127.0.0.1:8000/docs |
-| Frontend Angular (más adelante) | http://localhost:4200 |
-
-El backend **no abre una página visual**: `/docs` es su interfaz de prueba. La página con botones y pantallas será el frontend Angular.
-
-## Estructura explicada para la sustentación
-
-```
-backend/
-├── src/backend/
-│   ├── main.py                    # Arranca FastAPI, habilita CORS y registra rutas
-│   ├── db.py                      # Configura la sesión de base de datos
-│   ├── models.py                  # Tablas, relaciones y restricciones (3FN)
-│   ├── apis/                      # Rutas HTTP por módulo
-│   │   ├── auth.py
-│   │   ├── dashboard.py
-│   │   ├── familias.py
-│   │   ├── recolecciones.py
-│   │   └── materiales.py
-│   ├── schemas/entidades.py       # Validación de entradas y salidas con Pydantic
-│   ├── services/                  # Reglas de negocio, seguridad, autenticación JWT
-│   ├── repositories/crud.py       # Acceso a datos mediante SQLAlchemy
-│   └── seed.py                    # Crear usuarios para demostraciones
-├── tests/test_flujo.py           # Pruebas automáticas integradas de la API
-├── requirements.txt
-├── .env.example                   # Plantilla SQLite de desarrollo
-├── .env.postgres.example          # Plantilla PostgreSQL para integración final
-├── configurar.py                  # Genera la clave local de forma segura
-├── iniciar_backend.bat           # Iniciar en Windows
-├── crear_usuario.bat             # Crear usuarios de prueba
-└── probar_backend.bat            # Ejecutar las pruebas
-```
-
-### Flujo de una operación
-
-**Angular → API de FastAPI → Service (reglas) → Repository (SQLAlchemy) → Base de datos → JSON → Angular**.
-
-### Reglas incluidas
-
-- Login con hash **Argon2**, token **JWT**, autorización por roles (administrador/operador).
-- CRUD de familias, recolecciones y registros de materiales (listar, consultar, crear, editar, borrar).
-- Validación de teléfonos, fechas, valores positivos y estados permitidos con **Pydantic**.
-- Integridad referencial: no se borra una familia con recolecciones ni una recolección con materiales asociados.
-- Solo se registran kilos de materiales en recolecciones **completadas**.
-- Dashboard con conteo de familias, recolecciones completadas y kilos acumulados.
-- Peticiones parametrizadas por SQLAlchemy para evitar concatenar SQL inseguro.
-- CORS restringido a frontend de desarrollo en 4200.
-
-## Base de datos: SQLite para empezar; PostgreSQL para el entregable
-
-La primera ejecución utiliza el archivo local `ecogestion.db` (**SQLite**). Esto permite tener el backend en localhost sin instalar todavía PostgreSQL, y **los registros persisten cuando se reinicia el servidor**. El modelo relacional ya tiene tablas normalizadas y claves foráneas.
-
-**Antes de la entrega final**, cambia a PostgreSQL. Si instalas Docker Desktop:
-
-1. Instala Docker Desktop y, desde la carpeta `backend`, ejecuta `docker compose up -d db` (el archivo `docker-compose.yml` está incluido).
-2. Detén el backend.
-3. Cambia en `.env` **solo la línea** `DATABASE_URL` por el valor de `.env.postgres.example`. El servicio Docker incluido crea la base y el usuario de desarrollo.
-4. Vuelve a levantar el backend. Se crearán las tablas en PostgreSQL (no se migran automáticamente los datos de SQLite).
-5. Recrea el usuario de demostración con `crear_usuario.bat`.
-
-**Nota**: SQLite permite validar el flujo y la normalización, pero no sustituye una prueba real de la conexión a PostgreSQL. El proyecto de clase utiliza `create_all`; en proyectos de producción se prefieren migraciones de esquema.
-
-## Probar las funciones
-
-En la terminal, ejecuta `.\probar_backend.bat` o:
+Ejecutamos:
 
 ```powershell
-$env:PYTHONPATH = (Resolve-Path .\src).Path
-.\.venv\Scripts\python.exe -m pytest -q
+.\iniciar_backend.bat
 ```
 
-Los tests comprueban login, 401 sin token, CRUD, actualización, restricciones de borrado, estadísticas del dashboard y permisos de roles.
+Este archivo ayuda a preparar Python, instalar las dependencias necesarias y ejecutar FastAPI.
 
-## Seguridad, Git y datos de entrevistas
+La primera vez también genera un archivo de configuración local llamado `.env`.
 
-- **No subas a GitHub el archivo `.env`**, la base de datos local ni contraseñas. `.gitignore` ya las excluye.
-- Nunca uses el DNI, número de teléfono o dirección real de entrevistados sin su consentimiento.
-- Usa datos inventados para la demostración y conserva evidencias reales de entrevistas autorizadas para el informe.
-- Mantén `.env` como secreto local; antes de desplegar públicamente activa HTTPS, credenciales robustas y migraciones.
-- Para la rúbrica conserva commits por integrante, ramas descriptivas y Pull Requests con revisiones.
+Si SQL Server está configurado correctamente, podemos abrir:
+
+http://127.0.0.1:8000/docs
+
+En esa dirección encontraremos las diferentes funciones de nuestra API.
+
+También podemos comprobar que el servidor funciona ingresando a:
+
+http://127.0.0.1:8000/health
+
+### 9. Crear un usuario
+
+Para ingresar al sistema primero necesitamos registrar un usuario.
+
+Abrimos otra terminal dentro de la carpeta `backend` y ejecutamos:
+
+```powershell
+.\crear_usuario.bat
+```
+
+El programa nos pedirá:
+
+- Correo electrónico.
+- Nombre.
+- Rol de usuario.
+- Contraseña.
+
+La contraseña debe tener como mínimo 10 caracteres.
+
+Después de registrar al usuario, podremos iniciar sesión desde Angular.
+
+### 10. ¿Cómo iniciar Angular?
+
+Abrimos otra terminal y entramos a la carpeta `frontend` del proyecto.
+
+Instalamos los paquetes necesarios:
+
+```powershell
+npm.cmd install
+```
+
+Después iniciamos Angular:
+
+```powershell
+npx.cmd ng serve --configuration development --prebundle=false --no-hmr
+```
+
+Finalmente, abrimos en el navegador:
+
+http://localhost:4200
+
+Desde allí podremos iniciar sesión y utilizar los módulos del sistema.
+
+Para que todo funcione correctamente, SQL Server y FastAPI deben estar ejecutándose.
+
+### 11. Seguridad del sistema
+
+Durante el desarrollo también tuvimos en cuenta la seguridad de la información.
+
+Por ejemplo, el ingreso se realiza con correo y contraseña, y el backend utiliza tokens para verificar las solicitudes de los usuarios.
+
+Las contraseñas se almacenan mediante hashes y no directamente como texto.
+
+Además, utilizamos un archivo `.env` para guardar información de configuración que no debe publicarse en GitHub.
+
+Estas medidas forman parte de la seguridad básica del proyecto académico.
+
+### 12. Pruebas que realizamos
+
+Durante el desarrollo fuimos comprobando que las principales funciones trabajaran correctamente.
+
+Probamos el inicio de sesión y verificamos que las contraseñas incorrectas fueran rechazadas.
+
+También registramos, modificamos y eliminamos familias, recolecciones y materiales.
+
+Una de las pruebas fue registrar diferentes materiales reciclables y verificar que el Dashboard mostrara correctamente el total de kilogramos.
+
+Asimismo, comprobamos que, al reducir el tamaño de la pantalla desde las herramientas del navegador, los elementos se reorganizaran.
+
+Los datos utilizados en estas pruebas son ejemplos para demostrar el funcionamiento del sistema.
+
+### 13. Importancia de nuestro proyecto
+
+Consideramos que EcoGestión Huancayo es una propuesta útil porque muestra cómo la tecnología puede ayudar a organizar actividades relacionadas con el cuidado del medio ambiente.
+
+Aunque actualmente es un proyecto académico, puede servir como base para desarrollar una herramienta que se utilice en programas de reciclaje de nuestra comunidad.
+
+También nos permitió poner en práctica lo aprendido durante el curso, trabajando con diferentes herramientas de programación y una base de datos real.
+
+### 14. Conclusión
+
+Con el desarrollo de EcoGestión Huancayo logramos crear una aplicación web que permite administrar familias, recolecciones y materiales reciclables.
+
+Aprendimos a conectar Angular con FastAPI y SQL Server, además de implementar formularios, operaciones CRUD, autenticación y estadísticas.
+
+Este proyecto nos ayudó a comprender mejor cómo desarrollar un sistema web y cómo aplicar nuestros conocimientos para proponer soluciones a problemas de nuestro entorno.
+
+---
+
+**Proyecto académico: EcoGestión Huancayo**
+
+**Asignatura: Programación Web**
+
+**Año: 2026**
